@@ -1,1 +1,76 @@
-#map { height: 180px; }
+/* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Top Bar */
+#top-bar {
+    background-color: #1a1a1a;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 20px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Side Bar */
+#side-bar {
+    width: 300px;
+    height: 100vh;
+    background-color: #f8f8f8;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 25px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    overflow-y: auto;
+}
+
+#side-bar h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+}
+
+#side-bar p {
+    margin-bottom: 15px;
+    color: #666;
+}
+
+/* Map */
+#map {
+    height: 100vh;
+    margin-left: 300px;
+    transition: margin-left 0.3s;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #side-bar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        box-shadow: none;
+        padding: 15px;
+    }
+
+    #map {
+        margin-left: 0;
+        height: calc(100vh - 60px); /* Adjust based on the actual height of your top bar */
+    }
+
+    #top-bar {
+        font-size: 18px;
+        padding: 10px 0;
+    }
+}
