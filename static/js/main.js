@@ -38,6 +38,8 @@ function updatePreviewImg() {
 
 function onAddButtonPress() {
   selectingLocation = true;
+  var addButton = document.getElementById("add-button");
+  addButton.innerText = "Select location on map"
   document.getElementById("map").style.cursor = "crosshair";
 }
 
@@ -67,6 +69,8 @@ function openPromptPopup() {
 function closeDescriptionPopup() {
   var popup = document.getElementById("description-popup");
   popup.style.visibility = "hidden";
+  var addButton = document.getElementById("add-button");
+  addButton.innerText = "Add";
 }
 
 // Function to add a marker with a description to the map
@@ -136,6 +140,7 @@ function updateSidebar(markerId) {
     sidebar.innerHTML = "";
     if (data.filename) {
       sidebar.appendChild(img);
+      img.style.width = "100%";
     }
 
     sidebar.appendChild(desc);
