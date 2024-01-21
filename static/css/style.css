@@ -95,6 +95,19 @@ body {
 
 .popup-content {
     text-align: center;
+    display: flex;
+}
+
+.left-section {
+    flex: 1;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+.right-section {
+    flex: 1;
+    background-color: #ddd;
+    padding: 20px;
 }
 
 .popup .close {
