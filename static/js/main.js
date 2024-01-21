@@ -75,11 +75,16 @@ function addMarkerWithDescription(filename, description, latitude, longitude) {
   const formattedDateTime = getCurrentDateTimePST();
   const popupContent = createPopupContent(description, formattedDateTime);
 
-  addMarkerToMap(latitude, longitude, markerIcon, popupContent);
+  const marker = addMarkerToMap(latitude, longitude, markerIcon, popupContent);
 
   //if (filename) {
   //  addImageToSidebar(filename);
   // }
+
+  markerData[marker._leaflet_id] = {
+    filename: filename,
+    description: description,
+  };
 
   closeDescriptionPopup();
 }
@@ -103,12 +108,36 @@ function createPopupContent(description, dateTime) {
 
 // Function to add a marker to the map
 function addMarkerToMap(lat, lng, icon, popupContent) {
-  L.marker([lat, lng], { icon: icon })
+  var marker = L.marker([lat, lng], { icon: icon })
     .addTo(map)
-    .bindPopup(popupContent)
-    .openPopup();
+    .bindPopup(popupContent);
+
+  // Add click event listener to marker
+  marker.on("click", function () {
+    updateSidebar(marker._leaflet_id);
+  });
+
+  return marker;
 }
 
+function updateSidebar(markerId) {
+  var data = markerData[markerId];
+  console.log(data);
+  if (data) {
+    var sidebar = document.getElementById("side-bar");
+    var img = document.createElement("img");
+    img.src = staticURL + "uploads/" + data.filename; // Ensure this path is correct
+    img.style.width = "100px";
+
+    var desc = document.createElement("p");
+    desc.innerText = data.description;
+
+    // Clear previous content and add new
+    sidebar.innerHTML = "";
+    sidebar.appendChild(img);
+    sidebar.appendChild(desc);
+  }
+}
 // Function to add an image to the sidebar
 //function addImageToSidebar(filename) {
 //  var sidebar = document.getElementById("side-bar");

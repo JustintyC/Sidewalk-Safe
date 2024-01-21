@@ -14,6 +14,7 @@
     <script type="text/javascript">
       var iconUrl = "{{ url_for('static', filename='images/icon.jpeg') }}";
       var icyIconUrl = "{{ url_for('static', filename='images/blue.png') }}";
+      var staticURL = "{{ url_for('static', filename='') }}";
     </script>
   </head>
   <body>
@@ -21,13 +22,6 @@
     <div id="side-bar">
       Side Bar Content
       <button id="add-button" onclick="onAddButtonPress()">Add</button>
-      <!-- Display uploaded images -->
-      {% for file in files %}
-      <img
-        src="{{ url_for('static', filename='uploads/' + file) }}"
-        width="100"
-      />
-      {% endfor %}
     </div>
     <div id="map"></div>
     <div id="description-popup" class="popup">
