@@ -1,3 +1,4 @@
+var markerData = {}; // This will map marker ids to their data
 var map = L.map("map").setView([49.262401839237086, -123.24506350086884], 15);
 var selectingLocation = false;
 var tempLatLng = null;
@@ -28,7 +29,6 @@ var darkIcon = L.icon({
   popupAnchor: [0, -38],
 });
 
-
 function updatePreviewImg() {
   let inputImagePreview = document.getElementById("input_image_preview");
   let inputImage = document.getElementById("input_image");
@@ -41,12 +41,12 @@ function onAddButtonPress() {
   document.getElementById("map").style.cursor = "crosshair";
 }
 
-map.on("popupopen", function(e) {
+map.on("popupopen", function (e) {
   console.log(e.popup);
   console.log("working");
   const date = new Date();
   console.log(date);
-})
+});
 
 map.on("click", function (e) {
   if (selectingLocation) {
@@ -69,23 +69,54 @@ function closeDescriptionPopup() {
   popup.style.visibility = "hidden";
 }
 
+// Function to add a marker with a description to the map
 function addMarkerWithDescription(filename, description, latitude, longitude) {
-  const date = new Date();
-  L.marker([latitude, longitude], { icon: iconX })
-    .addTo(map)
-    .bindPopup(description + ": " + getCurrentDateTimePST())
-    .openPopup();
-  closeDescriptionPopup();
-  if (filename) {
-    var sidebar = document.getElementById("side-bar");
-    var img = document.createElement("img");
-    img.src = staticUrl + "uploads/" + filename; // Make sure this path is correct
-    img.style.width = "100px";
-    sidebar.appendChild(img);
-  }
+  const markerIcon = getIconForDescription(description);
+  const formattedDateTime = getCurrentDateTimePST();
+  const popupContent = createPopupContent(description, formattedDateTime);
+
+  addMarkerToMap(latitude, longitude, markerIcon, popupContent);
+
+  //if (filename) {
+  //  addImageToSidebar(filename);
+  // }
 
   closeDescriptionPopup();
 }
+
+// Function to get the appropriate icon based on the description
+function getIconForDescription(description) {
+  switch (description) {
+    case "Icy":
+      return icyIcon;
+    case "Dark":
+      return darkIcon;
+    default:
+      return customIcon; // Assuming customIcon is defined elsewhere
+  }
+}
+
+// Function to create the content for the popup
+function createPopupContent(description, dateTime) {
+  return description + ": " + dateTime;
+}
+
+// Function to add a marker to the map
+function addMarkerToMap(lat, lng, icon, popupContent) {
+  L.marker([lat, lng], { icon: icon })
+    .addTo(map)
+    .bindPopup(popupContent)
+    .openPopup();
+}
+
+// Function to add an image to the sidebar
+//function addImageToSidebar(filename) {
+//  var sidebar = document.getElementById("side-bar");
+//  var img = document.createElement("img");
+//  img.src = staticUrl + "uploads/" + filename; // Ensure this path is correct
+//  img.style.width = "100px";
+//  sidebar.appendChild(img);
+//}
 
 function uploadData() {
   var formData = new FormData();
@@ -138,14 +169,16 @@ function getCurrentDateTimePST() {
   var currentDateTime = new Date();
 
   // Convert to PST (UTC - 8 hours)
-  var pstDateTime = new Date(currentDateTime.getTime() - (8 * 60 * 60 * 1000));
+  var pstDateTime = new Date(currentDateTime.getTime() - 8 * 60 * 60 * 1000);
 
   // Format the date and time
-  var day = pstDateTime.getDate().toString().padStart(2, '0');
-  var month = (pstDateTime.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-indexed
+  var day = pstDateTime.getDate().toString().padStart(2, "0");
+  var month = (pstDateTime.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-indexed
   var year = pstDateTime.getFullYear().toString().slice(-2); // Get last two digits of year
-  var hours = pstDateTime.getHours().toString().padStart(2, '0');
-  var minutes = pstDateTime.getMinutes().toString().padStart(2, '0');
+  var hours = pstDateTime.getHours().toString().padStart(2, "0");
+  var minutes = pstDateTime.getMinutes().toString().padStart(2, "0");
 
-  return hours + ":" + minutes + " " + "PST" + " "+ day + "/" + month + "/" + year;
+  return (
+    hours + ":" + minutes + " " + "PST" + " " + day + "/" + month + "/" + year
+  );
 }
