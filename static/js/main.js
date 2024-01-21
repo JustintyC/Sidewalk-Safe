@@ -8,11 +8,26 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 
 var customIcon = L.icon({
+  // iconUrl: iconUrl, // Use the iconUrl variable
+  iconSize: [38, 38],
+  iconAnchor: [19, 38],
+  popupAnchor: [0, -38],
+});
+
+var icyIcon = L.icon({
+  iconUrl: icyIconUrl, // Use the iconUrl variable
+  iconSize: [38, 38],
+  iconAnchor: [19, 38],
+  popupAnchor: [0, -38],
+});
+
+var darkIcon = L.icon({
   iconUrl: iconUrl, // Use the iconUrl variable
   iconSize: [38, 38],
   iconAnchor: [19, 38],
   popupAnchor: [0, -38],
 });
+
 
 function updatePreviewImg() {
   let inputImagePreview = document.getElementById("input_image_preview");
@@ -25,6 +40,13 @@ function onAddButtonPress() {
   selectingLocation = true;
   document.getElementById("map").style.cursor = "crosshair";
 }
+
+map.on("popupopen", function(e) {
+  console.log(e.popup);
+  console.log("working");
+  const date = new Date();
+  console.log(date);
+})
 
 map.on("click", function (e) {
   if (selectingLocation) {
@@ -48,9 +70,10 @@ function closeDescriptionPopup() {
 }
 
 function addMarkerWithDescription(filename, description, latitude, longitude) {
-  L.marker([latitude, longitude], { icon: customIcon })
+  const date = new Date();
+  L.marker([latitude, longitude], { icon: iconX })
     .addTo(map)
-    .bindPopup(description)
+    .bindPopup(description + ": " + getCurrentDateTimePST())
     .openPopup();
   closeDescriptionPopup();
   if (filename) {
@@ -73,6 +96,12 @@ function uploadData() {
 
   if (fileField.files[0]) {
     formData.append("input_image", fileField.files[0]);
+  }
+
+  if (descriptionField.value == "Icy") {
+    iconX = icyIcon;
+  } else if (descriptionField.value == "Dark") {
+    iconX = darkIcon;
   }
 
   formData.append("description", descriptionField.value);
@@ -103,4 +132,20 @@ function uploadData() {
 
   // Prevent the form from submitting traditionally
   return false;
+}
+
+function getCurrentDateTimePST() {
+  var currentDateTime = new Date();
+
+  // Convert to PST (UTC - 8 hours)
+  var pstDateTime = new Date(currentDateTime.getTime() - (8 * 60 * 60 * 1000));
+
+  // Format the date and time
+  var day = pstDateTime.getDate().toString().padStart(2, '0');
+  var month = (pstDateTime.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-indexed
+  var year = pstDateTime.getFullYear().toString().slice(-2); // Get last two digits of year
+  var hours = pstDateTime.getHours().toString().padStart(2, '0');
+  var minutes = pstDateTime.getMinutes().toString().padStart(2, '0');
+
+  return hours + ":" + minutes + " " + "PST" + " "+ day + "/" + month + "/" + year;
 }
