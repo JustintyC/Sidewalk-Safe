@@ -18,19 +18,13 @@
 
     <div id="description-popup" class="popup">
         <div class="popup-content">
-            <div class="left-section">
-                <img src="images/city.png" id="input_image_preview">
-                <input type="file" accept="image/jpeg, image/png, image/jpg" id="input_image" onchange="updatePreviewImg()">
-                <button onclick="addMarkerWithDescription()">Add</button>
-            </div>
-            <div class="right-section">
-                <span class="close" onclick="closeDescriptionPopup()">&times;</span>
-                <h2>Enter Description</h2>
-                <input type="text" id="description-input" placeholder="Description">
-            </div>
-
+            <span class="close" onclick="closeDescriptionPopup()">&times;</span>
+            <h2>Enter Description</h2>
+            <img src="images/city.png" id="input_image_preview">
             
-
+            <input type="text" id="description-input" placeholder="Description">
+            <input type="file" accept="image/jpeg, image/png, image/jpg" id="input_image" onchange="updatePreviewImg()">
+            <button onclick="addMarkerWithDescription()">Add</button>
         </div>
     </div>
 </body>
