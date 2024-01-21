@@ -124,7 +124,7 @@ function updateSidebar(markerId) {
   var data = markerData[markerId];
   console.log(data);
   if (data) {
-    var sidebar = document.getElementById("side-bar");
+    var sidebar = document.getElementById("dynamic");
     var img = document.createElement("img");
     img.src = staticURL + "uploads/" + data.filename; // Ensure this path is correct
     img.style.width = "100px";
