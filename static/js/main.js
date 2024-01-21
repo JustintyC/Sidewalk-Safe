@@ -134,7 +134,10 @@ function updateSidebar(markerId) {
 
     // Clear previous content and add new
     sidebar.innerHTML = "";
-    sidebar.appendChild(img);
+    if (data.filename) {
+      sidebar.appendChild(img);
+    }
+
     sidebar.appendChild(desc);
   }
 }
