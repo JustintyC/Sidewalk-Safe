@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactive Leaflet Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+<body>
+    <div id="top-bar">Top Bar</div>
+    <div id="side-bar">Side Bar Content
+        <button id="add-button" onclick="onAddButtonPress()">Add</button>
+        <!-- Display uploaded images -->
+        {% for file in files %}
+            <img src="{{ url_for('static', filename='uploads/' ~ file) }}" width="100">
+        {% endfor %}
+    </div>
+    <div id="map"></div>
+    <div id="description-popup" class="popup">
+        <!-- Popup content will go here -->
+        <form onsubmit="return uploadData()">
+            <div class="popup-content">
+                <div class="left-section">
+                    <img src="" id="input_image_preview" style="display: none;">
+                    <input type="file" accept="image/jpeg, image/png, image/jpg" id="input_image" onchange="updatePreviewImg()">
+                </div>
+                <div class="right-section">
+                    <span class="close" onclick="closeDescriptionPopup()">&times;</span>
+                    <h2>Enter Description</h2>
+                    <input type="text" id="description-input" placeholder="Description">
+                    <input type="hidden" id="latitude-input">
+                    <input type="hidden" id="longitude-input">
+                    <button type="submit">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+<script type="text/javascript">
+    var staticUrl = "{{ url_for('static', filename='') }}";
+</script>
+</html>

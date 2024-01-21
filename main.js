@@ -31,11 +31,6 @@ function updatePreviewImg() {
     inputImagePreview.src = URL.createObjectURL(inputImage.files[0]);
 }
 
-// inputImage.onchange = function() {
-//     inputImagePreview.src = URL.createObjectURL(inputImage.files[0]);
-// }
-
-
 function onAddButtonPress() {
     selectingLocation = true;
     document.getElementById("map").style.cursor = "crosshair";
@@ -60,6 +55,8 @@ function addMarkerWithDescription() {
             .openPopup();
     }
     closeDescriptionPopup();
+    let inputImagePreview = document.getElementById("input_image_preview");
+    inputImagePreview.src = "images/city.png";
     document.getElementById('description-input').value = ''; // Reset the input field
 }
 
