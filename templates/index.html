@@ -19,15 +19,17 @@
   <body>
     <div id="top-bar">Top Text</div>
     <div id="side-bar">
-      Side Bar Content
-      <button id="add-button" onclick="onAddButtonPress()">Add</button>
-      <!-- Display uploaded images -->
-      {% for file in files %}
-      <img
-        src="{{ url_for('static', filename='uploads/' + file) }}"
-        width="100"
-      />
-      {% endfor %}
+      <div class="layer 1">
+        <button id="add-button" onclick="onAddButtonPress()">Add</button>
+      </div>
+      <div class="layer 2">
+        <div id="pin-description">
+          Pin description
+                
+
+        </div>
+      </div>
+      
     </div>
     <div id="map"></div>
     <div id="description-popup" class="popup">
