@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Interactive Leaflet Map</title>
+    <title>Sidewalk Safe</title>
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -21,7 +21,8 @@
   <body>
     <div id="top-bar">
       <div id="top-bar">
-        Sidewalk Manager
+        <img src="{{url_for('static', filename='images/SWS.png')}}" id="icon" />
+        Sidewalk Safe
         <input type="text" id="search-input" placeholder="Search for city..." />
       </div>
     </div>

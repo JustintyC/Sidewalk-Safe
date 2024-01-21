@@ -200,3 +200,7 @@ body {
 .file-input-label:hover {
   background-color: #444d4e;
 }
+
+#icon {
+  width: 100px;
+}
