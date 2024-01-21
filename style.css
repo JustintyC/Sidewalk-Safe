@@ -111,3 +111,7 @@ body {
     padding: 10px;
     margin: 10px 0;
 }
+
+#input_image_preview {
+    width: 100px;
+}

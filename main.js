@@ -8,7 +8,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 var customIcon = L.icon({
-    iconUrl: 'gregor 50x50.jpg',
+    iconUrl: 'images/gregor 50x50.jpg',
     iconSize: [38, 38],
     iconAnchor: [19, 38], // point of the icon which will correspond to marker's location
     popupAnchor: [0, -38] // point from which the popup should open relative to the iconAnchor
@@ -22,6 +22,19 @@ map.on('click', function(e) {
         document.getElementById('map').style.cursor = '';
     }
 });
+
+
+
+function updatePreviewImg() {
+    let inputImagePreview = document.getElementById("input_image_preview");
+    let inputImage = document.getElementById("input_image");
+    inputImagePreview.src = URL.createObjectURL(inputImage.files[0]);
+}
+
+// inputImage.onchange = function() {
+//     inputImagePreview.src = URL.createObjectURL(inputImage.files[0]);
+// }
+
 
 function onAddButtonPress() {
     selectingLocation = true;
@@ -49,3 +62,4 @@ function addMarkerWithDescription() {
     closeDescriptionPopup();
     document.getElementById('description-input').value = ''; // Reset the input field
 }
+

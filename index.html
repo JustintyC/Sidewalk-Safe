@@ -20,7 +20,10 @@
         <div class="popup-content">
             <span class="close" onclick="closeDescriptionPopup()">&times;</span>
             <h2>Enter Description</h2>
+            <img src="images/city.png" id="input_image_preview">
+            
             <input type="text" id="description-input" placeholder="Description">
+            <input type="file" accept="image/jpeg, image/png, image/jpg" id="input_image" onchange="updatePreviewImg()">
             <button onclick="addMarkerWithDescription()">Add</button>
         </div>
     </div>
