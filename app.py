@@ -12,7 +12,7 @@ app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Set your OpenAI API key here
-openai_api_key = "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"
+openai_api_key = ""
 
 
 def allowed_file(filename):
