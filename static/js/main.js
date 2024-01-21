@@ -9,7 +9,7 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 
 var customIcon = L.icon({
-  // iconUrl: iconUrl, // Use the iconUrl variable
+  iconUrl: iconUrl, // Use the iconUrl variable
   iconSize: [38, 38],
   iconAnchor: [19, 38],
   popupAnchor: [0, -38],
@@ -23,7 +23,7 @@ var icyIcon = L.icon({
 });
 
 var darkIcon = L.icon({
-  iconUrl: iconUrl, // Use the iconUrl variable
+  iconUrl: darkIconUrl, // Use the iconUrl variable
   iconSize: [38, 38],
   iconAnchor: [19, 38],
   popupAnchor: [0, -38],
@@ -38,6 +38,8 @@ function updatePreviewImg() {
 
 function onAddButtonPress() {
   selectingLocation = true;
+  var addButton = document.getElementById("add-button");
+  addButton.innerText = "Select location on map";
   document.getElementById("map").style.cursor = "crosshair";
 }
 
@@ -65,8 +67,12 @@ function openPromptPopup() {
 }
 
 function closeDescriptionPopup() {
+  let inputImagePreview = document.getElementById("input_image_preview");
+  inputImagePreview.src = null;
   var popup = document.getElementById("description-popup");
   popup.style.visibility = "hidden";
+  var addButton = document.getElementById("add-button");
+  addButton.innerText = "Add";
 }
 
 // Function to add a marker with a description to the map
@@ -96,7 +102,7 @@ function getIconForDescription(description) {
       return icyIcon;
     case "Dark":
       return darkIcon;
-    default:
+    case "Warning":
       return customIcon; // Assuming customIcon is defined elsewhere
   }
 }
@@ -136,6 +142,7 @@ function updateSidebar(markerId) {
     sidebar.innerHTML = "";
     if (data.filename) {
       sidebar.appendChild(img);
+      img.style.width = "100%";
     }
 
     sidebar.appendChild(desc);
@@ -161,16 +168,6 @@ function uploadData() {
     formData.append("input_image", fileField.files[0]);
   }
 
-  if (descriptionField.value == "Icy") {
-    iconX = icyIcon;
-  } else if (descriptionField.value == "Dark") {
-    iconX = darkIcon;
-  }
-
-  formData.append("description", descriptionField.value);
-  formData.append("latitude", latitudeField.value);
-  formData.append("longitude", longitudeField.value);
-
   fetch("/upload", {
     method: "POST",
     body: formData,
@@ -182,12 +179,41 @@ function uploadData() {
       return response.json();
     })
     .then((data) => {
+      // Process the analysis result here
+      if (data.analysis && data.analysis.error) {
+        console.error("Error in image analysis:", data.analysis.error);
+      } else {
+        // Example of processing the analysis result
+        // This is a placeholder, you need to implement actual logic
+        // based on how GPT-4's response is structured
+        let analysisResult = data.analysis.choices[0].message.content;
+        console.log(analysisResult);
+        if (analysisResult.includes("icy")) {
+          descriptionField.value = "Icy";
+        } else if (analysisResult.includes("dark")) {
+          descriptionField.value = "Dark";
+        }
+      }
+
+      if (descriptionField.value == "Icy") {
+        iconX = icyIcon;
+      } else if (descriptionField.value == "Dark") {
+        iconX = darkIcon;
+      } else {
+        iconX = customIcon;
+      }
+
+      console.log("hi");
+      // Continue with adding the marker
+
       addMarkerWithDescription(
-        data.filename,
-        data.description,
-        data.latitude,
-        data.longitude
+        fileField.files.length > 0 ? data.filename : null,
+        descriptionField.value,
+        latitudeField.value,
+        longitudeField.value
       );
+
+      console.log("hi bye");
     })
     .catch((error) => {
       console.error("Error:", error);

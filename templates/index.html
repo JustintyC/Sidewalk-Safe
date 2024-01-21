@@ -12,15 +12,20 @@
     />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script type="text/javascript">
-      var iconUrl = "{{ url_for('static', filename='images/icon.jpeg') }}";
-      var icyIconUrl = "{{ url_for('static', filename='images/blue.png') }}";
+      var iconUrl = "{{ url_for('static', filename='images/warning.png') }}";
+      var icyIconUrl = "{{ url_for('static', filename='images/ice.png') }}";
+      var darkIconUrl = "{{ url_for('static', filename='images/dark.png') }}";
       var staticURL = "{{ url_for('static', filename='') }}";
     </script>
   </head>
   <body>
-    <div id="top-bar">Top Text</div>
+    <div id="top-bar">
+      <div id="top-bar">
+        top text
+        <input type="text" id="search-input" placeholder="Search for city..." />
+      </div>
+    </div>
     <div id="side-bar">
-      Side Bar Content
       <button id="add-button" onclick="onAddButtonPress()">Add</button>
       <div id="dynamic"></div>
     </div>
@@ -31,17 +36,26 @@
         <div class="popup-content">
           <div class="left-section">
             <img src="" id="input_image_preview" style="display: none" />
-            <input
-              type="file"
-              accept="image/jpeg, image/png, image/jpg"
-              id="input_image"
-              onchange="updatePreviewImg()"
-            />
+            <div class="file-input-container">
+              <!-- File input label -->
+              <label for="input_image" class="file-input-label"
+                >Choose Image (optional)</label
+              >
+              <!-- Actual file input -->
+              <input
+                type="file"
+                accept="image/jpeg, image/png, image/jpg"
+                id="input_image"
+                class="file-input"
+                onchange="updatePreviewImg()"
+              />
+            </div>
           </div>
           <div class="right-section">
             <span class="close" onclick="closeDescriptionPopup()">&times;</span>
-            <h2>Enter Description</h2>
-            <select name="tagDropDown" id="description-input">
+            <h2>How is the sidewalk?</h2>
+            <select name="tagDropDown" id="description-input" class="dropDown">
+              <option value="Warning">Warning</option>
               <option value="Icy">Icy</option>
               <option value="Dark">Dark</option>
             </select>
