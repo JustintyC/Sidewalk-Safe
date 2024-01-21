@@ -1,5 +1,6 @@
 var map = L.map('map').setView([49.262401839237086, -123.24506350086884], 15);
 var selectingLocation = false;
+var tempLatLng = null;
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -15,20 +16,36 @@ var customIcon = L.icon({
 
 map.on('click', function(e) {
     if (selectingLocation) {
-        var description = prompt("Enter a description for this place:");
-        if(description) {
-            L.marker(e.latlng, {icon: customIcon}).addTo(map) // Use customIcon here
-                .bindPopup(description)
-                .openPopup();
-        }
+        tempLatLng = e.latlng;
+        openPromptPopup();
+        selectingLocation = false;
+        document.getElementById('map').style.cursor = '';
     }
-    selectingLocation = false;    
-    document.getElementById('map').style.cursor = '';
 });
-
 
 function onAddButtonPress() {
     selectingLocation = true;
     document.getElementById("map").style.cursor = "crosshair";
-    // TODO prompt user to choose a location
+    // You can display a message to the user if needed
+}
+
+function openPromptPopup() {
+    var popup = document.getElementById("description-popup");
+    popup.style.visibility = 'visible';
+}   
+
+function closeDescriptionPopup() {
+    var popup = document.getElementById("description-popup");
+    popup.style.visibility = 'hidden';
+}
+
+function addMarkerWithDescription() {
+    var description = document.getElementById('description-input').value;
+    if (description) {
+        L.marker(tempLatLng, {icon: customIcon}).addTo(map)
+            .bindPopup(description)
+            .openPopup();
+    }
+    closeDescriptionPopup();
+    document.getElementById('description-input').value = ''; // Reset the input field
 }

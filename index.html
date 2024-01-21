@@ -9,7 +9,6 @@
 <body>
     <div id="top-bar">Top Bar</div>
     <div id="side-bar">Side Bar Content
-
         <button id="add-button" onclick="onAddButtonPress()">Add</button>
     </div>
     <div id="map"></div>
@@ -17,6 +16,13 @@
     </script>
 
 
-
+    <div id="description-popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closeDescriptionPopup()">&times;</span>
+            <h2>Enter Description</h2>
+            <input type="text" id="description-input" placeholder="Description">
+            <button onclick="addMarkerWithDescription()">Add</button>
+        </div>
+    </div>
 </body>
 </html>
